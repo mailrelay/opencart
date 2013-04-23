@@ -6,7 +6,7 @@ $path[] = get_include_path();
 set_include_path(implode(PATH_SEPARATOR, $path));
 
 require_once 'Zend/Loader/Autoloader.php';
-Zend_Loader_Autoloader::getInstance ()->registerNamespace('Zend');
+Zend_Loader_Autoloader::getInstance()->registerNamespace('Zend');
 
 class ControllerModuleMailrelay extends Controller {
 
@@ -29,7 +29,14 @@ class ControllerModuleMailrelay extends Controller {
         $this->model_module_mailrelay->createMailrelayTable();
 	}
 	
-	public function index() {   
+	public function uninstall() {
+	    $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'mailrelay`');
+	    
+        $this->load->model('setting/setting');
+        $this->model_setting_setting->editSetting('mailrelay', array('mailrelay_status' => 0));
+	}
+	
+	public function index() {
 		//LOAD LANGUAGE
 		$this->load->language('module/mailrelay');
 
@@ -235,8 +242,69 @@ class ControllerModuleMailrelay extends Controller {
 	}
 	
 	protected function _sync($credentials) {
-	    if ((int)$this->request->post['last_group'] > 0) {
-	        die('_sync under construction.');
+	    $group = (int)$this->request->post['last_group'];
+	    if ($group > 0) {
+            $db_prefix = DB_PREFIX;
+            $summary['total'] = 0;
+            $summary['new'] = 0;
+            $summary['updated'] = 0;
+            $summary['failed'] = 0;
+            
+            $client = $this->_getClient($credentials['hostname'], $credentials['key']);
+            
+            $sql = "SELECT * FROM `{$db_prefix}customer` WHERE `newsletter` = 1";
+			$rowset = $this->db->query($sql);
+            
+            foreach($rowset->rows as $row) {
+                $name = "{$row['firstname']} {$row['lastname']}";
+                $email = $row['email'];
+                
+                $params = array();
+                $params['email'] = $email;
+                $result = $this->_execute($client, 'getSubscribers', $params);
+                
+                if ($result) {
+                    $summary['total']++;
+                    
+                    if (! count($result['data'])) {
+                        $params['name'] = $name;
+                        $params['groups'] = array($group);
+                        $result = $this->_execute($client, 'addSubscriber', $params);
+                        
+                        if ($result && 1 == $result['status']) {
+                            $summary['new'] ++;
+                        } else {
+                            $summary['failed'] ++;
+                        }
+                    } else {
+                        $params['id'] = $result['data'][0]['id'];
+                        $params['name'] = $name;
+                        $params['groups'] = array($group);
+                        $result = $this->_execute($client, 'updateSubscriber', $params);
+                    	
+                    	if ($result && 1 == $result['status']) {
+                            $summary['updated'] ++;
+                    	} else {
+                            $summary['failed'] ++;
+                    	}
+                    }
+                } else {
+                    $summary['failed'] ++;
+                }
+                
+                // Update the last selected group
+                $sql = "UPDATE `{$db_prefix}mailrelay` SET last_group = $group";
+                $this->db->query($sql);
+                
+                $message  = '';
+                $message .= $this->language->get('text_total_subscribers') . ": ({$summary['total']})<br />";
+                $message .= $this->language->get('text_new_subscribers') . ": ({$summary['new']})<br />";
+                $message .= $this->language->get('text_updated_subscribers') . ": ({$summary['updated']})<br />";
+                $message .= $this->language->get('text_failed_subscribers') . ": ({$summary['failed']})<br />";
+                
+                $this->data['success'] = $message;
+
+            }
 	    } else {
 	        $this->error['warning'] = $this->language->get('error_please_select_a_group');
 	    }

@@ -291,20 +291,19 @@ class ControllerModuleMailrelay extends Controller {
                 } else {
                     $summary['failed'] ++;
                 }
-                
-                // Update the last selected group
-                $sql = "UPDATE `{$db_prefix}mailrelay` SET last_group = $group";
-                $this->db->query($sql);
-                
-                $message  = '';
-                $message .= $this->language->get('text_total_subscribers') . ": ({$summary['total']})<br />";
-                $message .= $this->language->get('text_new_subscribers') . ": ({$summary['new']})<br />";
-                $message .= $this->language->get('text_updated_subscribers') . ": ({$summary['updated']})<br />";
-                $message .= $this->language->get('text_failed_subscribers') . ": ({$summary['failed']})<br />";
-                
-                $this->data['success'] = $message;
-
             }
+            
+            // Update the last selected group
+            $sql = "UPDATE `{$db_prefix}mailrelay` SET last_group = $group";
+            $this->db->query($sql);
+            
+            $message  = '';
+            $message .= $this->language->get('text_total_subscribers') . ": ({$summary['total']})<br />";
+            $message .= $this->language->get('text_new_subscribers') . ": ({$summary['new']})<br />";
+            $message .= $this->language->get('text_updated_subscribers') . ": ({$summary['updated']})<br />";
+            $message .= $this->language->get('text_failed_subscribers') . ": ({$summary['failed']})<br />";
+            
+            $this->data['success'] = $message;
 	    } else {
 	        $this->error['warning'] = $this->language->get('error_please_select_a_group');
 	    }

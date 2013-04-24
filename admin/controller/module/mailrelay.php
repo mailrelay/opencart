@@ -1,5 +1,5 @@
 <?php
-$dirname = dirname( __FILE__ );
+$dirname = dirname(__FILE__);
 $path = array();
 $path[] = $dirname . DIRECTORY_SEPARATOR . 'library';
 $path[] = get_include_path();
@@ -182,12 +182,12 @@ class ControllerModuleMailrelay extends Controller {
         
         try {
             $apiKey = '';
-            $client = $this->_getClient ($hostname);
+            $client = $this->_getClient($hostname);
             $params['username'] = $username;
             $params['password'] = $password;
             $result = $this->_execute($client, 'doAuthentication', $params);
             
-            if (is_array ($result)) {
+            if (is_array($result)) {
                 if ($result['status']) {
                     $apiKey = $result['data'];
                 } else {
@@ -224,14 +224,14 @@ class ControllerModuleMailrelay extends Controller {
                 
                 $id = $this->db->getLastId();
             }
-        } catch (Exception $e) {
+        } catch(Exception $e) {
             $this->error['warning'] = sprintf($this->language->get('error_unable_to_connect_to'), $hostname);
             break;
         }
         $this->request->post['key'] = $apiKey;
         $this->request->post['last_group'] = 0;
         $this->data['success'] = $this->language->get('text_your_credentials_have_been_saved');
-        return array (
+        return array(
             'id' => $id,
             'username' => $username,
             'password' => $password,
@@ -266,7 +266,7 @@ class ControllerModuleMailrelay extends Controller {
                 if ($result) {
                     $summary['total']++;
                     
-                    if (! count($result['data'])) {
+                    if (!count($result['data'])) {
                         $params['name'] = $name;
                         $params['groups'] = array($group);
                         $result = $this->_execute($client, 'addSubscriber', $params);
@@ -328,7 +328,7 @@ class ControllerModuleMailrelay extends Controller {
         $result = null;
         $client->setParameterPost('function', $function);
 
-        foreach ( $params as $key => $value ) {
+        foreach ($params as $key => $value) {
             $client->setParameterPost($key, $value);
         }
 
@@ -343,11 +343,17 @@ class ControllerModuleMailrelay extends Controller {
 	}
 	
 	protected function _assignGroups($credentials) {
-        $options = array (
+        $options = array(
             0 => $this->language->get('text_select_a_group')
         );
         
         if ($credentials) {
+            $validate = new Zend_Validate_Hostname();
+		    if (!$validate->isValid($credentials['hostname'])) {
+		    	$this->error['warning'] = $this->language->get('error_please_provide_a_valid_hostname');
+		    	return $options;
+		    }
+            
             $client = $this->_getClient($credentials['hostname'], $credentials['key']);
             $params['enable'] = true;
             $result = $this->_execute($client, 'getGroups', $params);

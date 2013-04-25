@@ -3,6 +3,7 @@
 $_['heading_title'] = 'Mailrelay Sync';
 
 // Text
+$_['text_home'] = 'Home';
 $_['text_module'] = 'Modules';
 $_['text_success'] = 'Success: You have modified module Mailrelay!';
 $_['text_config'] = 'Config';
@@ -14,6 +15,8 @@ $_['text_total_subscribers'] = 'Total subscribers';
 $_['text_new_subscribers'] = 'New subscribers';
 $_['text_updated_subscribers'] = 'Updated subscribers';
 $_['text_failed_subscribers'] = 'Failed subscribers';
+$_['button_save'] = 'Save';
+$_['button_cancel'] = 'Cancel';
 
 // Entry
 $_['entry_hostname'] = 'Hostname:';

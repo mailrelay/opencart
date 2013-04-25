@@ -61,6 +61,7 @@ class ControllerModuleMailrelay extends Controller {
 		//LANGUAGE
 		$text_strings = array(
 				'heading_title',
+				'text_home',
 				'text_module',
 				'text_config',
 				'text_sync',

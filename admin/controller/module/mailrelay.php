@@ -326,6 +326,9 @@ class ControllerModuleMailrelay extends Controller {
 	
 	protected function _execute(Zend_Http_Client $client, $function, array $params = array()) {
         $result = null;
+        
+        $client->setHeaders('X-Request-Origin: OpenCart' . VERSION . '|1.0');
+        
         $client->setParameterPost('function', $function);
 
         foreach ($params as $key => $value) {

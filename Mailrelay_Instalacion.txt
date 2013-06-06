@@ -1,0 +1,75 @@
+---------------------------------------------------------------
+------ Instalación del plugin de MailRelay para OpenCart -------
+---------------------------------------------------------------
+
+La instalación del plugin de MailRelay para OpenCart es muy simple. Solo lleva unos pocos pasos para conseguirlo.
+
+Después de instalar la extensión debes ingresar a "Extensions -> Modules -> Mailrelay Sync -> Edit", esta opción te dejará sincronizar todos tus usuarios de OpenCart con tu cuenta Mailrelay.
+Esto te ahorrará tiempo para sincronizar y organizar tus usuarios en grupos.
+
+Vamos a comentar con el proceso de instalación:
+
+-----------------------
+Primer paso obligatorio
+-----------------------
+
+El primer paso, para poder usar la extensión, es habilitar la clave API de nuestra cuenta Mailrelay. Para eso tenemos que entrar en el panel de control de
+nuestra cuenta Mailrelay. Una vez allí iremos al menú de configuración, y "Acceso API". En esa pantalla hay que pulsar en el botón de "Generar nueva clave API".
+No es necesario el escribir esta clave, una vez generada, la extensión podrá obtenerla usando los datos de usuario y contraseña.
+
+----------------------------------------
+Sube los archivos necesarios al servidor
+----------------------------------------
+
+El plugin Mailrelay viene en un archivo formato .zip. El contenido del mismo debe extraerse en la carpeta donde se encuentra instalado OpenCart.
+
+--------------------------------------------------
+Instalación desde el panel de control de OpenCart
+--------------------------------------------------
+
+Una vez se han subido todos los archivos, necesitamos hacer algunas configuraciones en el panel de control:
+
+- Iremos a la opción de "Extensions -> Modules -> Mailrelay Sync -> Edit"
+- Si muestra que está desactivado, clicaremos en "Install" para habilitarlo
+
+Esto finaliza el proceso de instalación.
+
+-------------------------
+Configurando la extensión
+-------------------------
+
+La opción "Extensions -> Modules -> Mailrelay Sync -> Edit" nos llevará a un formulario donde tenemos que rellenar los siguientes datos:
+
+- Host (esto puede encontrarse en tu correo de bienvenida de Mailrelay). Por favor ten en cuenta que el host tiene que introducirse sin el http:// inicial
+- API key (la clave API generada de nuestra cuenta Mailrelay).
+
+Una vez los datos se han grabado con éxito podemos iniciar la sincronización de usuarios.
+
+--------------------------
+Sincronización de usuarios
+--------------------------
+
+Después de la configuración, podemos clicar en el botón de "Save". Si la configuración es correcta podemos seleccionar los grupos
+de nuestra cuenta Mailrelay que deben ser sincronizados con la cuenta OpenCart. Seleccionaremos el que necesitemos y pulsaremos en el botón de "Start Sync".
+
+Luego nos mostrará el total de usuarios sincronizados.
+
+[ NOTA: Dependiendo del número de usuarios a sincronizar, el proceso puede tardar de algunos segundos a varios minutos. ]
+
+--------------
+Desinstalación
+--------------
+
+Desinstalar la extensión es tan fácil como instalarla. Solo tienes que ir a "Extensions -> Modules -> Mailrelay Sync -> Uninstall".
+Seleccionando esta opción, la extensión estará deshabilitada.
+Los archivos no serán borrados del ftp, para hacerlos tienes que borrar los archivos adecuados en el servidor
+
+-----------------
+Notas adicionales
+-----------------
+- Esta extensión ha sido testeada usando OpenCart 1.5.1.1
+
+- Este software se proporciona "TAL CUAL" por los propietarios del copyright, y con ningun garantía expresa o implícita, incluyendo, pero no limitado a,
+las garantías de comercialización y aptitud para un proposito en particular. En ningún caso el propietario del copyright o los colaborados serán responsables
+por daños directos, indirectos, accidentales, especiales, ejemplares o derivados (incluyendo, sin limitaciones a la obtención de bienes o servicios, la pérdida de uso,
+de datos o de beneficios; o interrupción de negocio), de cualquier causa a partir del uso de este software, incluso si se ha advertido de la posibilidad de tales daños.

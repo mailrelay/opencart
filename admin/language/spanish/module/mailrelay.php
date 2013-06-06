@@ -20,8 +20,7 @@ $_['button_cancel'] = 'Cancelar';
 
 // Entry
 $_['entry_hostname'] = 'Dominio:';
-$_['entry_username'] = 'Usuario:';
-$_['entry_password'] = 'Clave:';
+$_['entry_key'] = 'Clave API:';
 $_['entry_groups'] = 'Grupos:';
 
 // Error

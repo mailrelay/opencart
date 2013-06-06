@@ -22,17 +22,12 @@
 		<!-- hostname -->
         <tr>
           <td><?php echo $entry_hostname; ?></td>
-          <td><input type="text" name="hostname" value="<?php echo $hostname; ?>" /></td>
+          <td><input type="text" name="hostname" size="40" value="<?php echo $hostname; ?>" /></td>
         </tr>
-		<!-- username -->
+		<!-- key -->
         <tr>
-          <td><?php echo $entry_username; ?></td>
-          <td><input type="text" name="username" value="<?php echo $username; ?>" /></td>
-        </tr>
-		<!-- password -->
-        <tr>
-          <td><?php echo $entry_password; ?></td>
-          <td><input type="password" name="password" value="<?php echo $password; ?>" /></td>
+          <td><?php echo $entry_key; ?></td>
+          <td><input type="text" name="key" size="50" value="<?php echo $key; ?>" /></td>
         </tr>
       </table>
       <!-- . -->

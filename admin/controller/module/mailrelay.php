@@ -163,6 +163,8 @@ class ControllerModuleMailrelay extends Controller {
 	}
 
 	protected function _saveCredentials() {
+	    $this->request->post['hostname'] = trim($this->request->post['hostname']);
+	    $this->request->post['key'] = trim($this->request->post['key']);
 	    $hostname = $this->db->escape($this->request->post['hostname']);
         $key = $this->db->escape($this->request->post['key']);
 
@@ -287,11 +289,12 @@ class ControllerModuleMailrelay extends Controller {
 	}
 
 	protected function _getClient($hostName, $key = null) {
-        $uri = Zend_Uri_Http::fromString('http://example.com/ccm/admin/api/version/2/&type=json');
+        $uri = Zend_Uri_Http::fromString('https://example.com/ccm/admin/api/version/2/&type=json');
         $uri->setHost($hostName);
 
-        $client = new Zend_Http_Client();
-        $client->setUri($uri);
+        $config = array('adapter' => 'Zend_Http_Client_Adapter_Curl', 'curloptions' => array(CURLOPT_SSL_VERIFYPEER => false, CURLOPT_SSLVERSION => 3));
+
+		$client = new Zend_Http_Client($uri, $config);
 
         if ($key) {
             $client->setParameterPost('apiKey', $key);
